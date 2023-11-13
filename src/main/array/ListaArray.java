@@ -2,98 +2,177 @@ package array;
 
 import list.EstruturaElementar;
 
-public class ListaArray implements EstruturaElementar{
+public class ListaArray implements EstruturaElementar {
 
     private int[] array;
+    private int tamanho;
     private int indice_fim;
 
-    public ListaArray() {
-
+    public ListaArray(int tamanho) {
+        this.tamanho = tamanho;
+        array = new int[tamanho];
+        indice_fim = 0;
     }
 
     @Override
     public boolean buscaElemento(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscaElemento'");
+        for (int i = 0; i < indice_fim; i++) {
+            if (array[i] == valor) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public int buscaIndice(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscaIndice'");
+        for (int i = 0; i < indice_fim; i++) {
+            if (array[i] == valor) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public int minimo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'minimo'");
+        if (indice_fim == 0) {
+            throw new IllegalStateException("A lista está vazia.");
+        }
+
+        int min = array[0];
+        for (int i = 1; i < indice_fim; i++) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        return min;
     }
 
     @Override
     public int maximo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'maximo'");
+        if (indice_fim == 0) {
+            throw new IllegalStateException("A lista está vazia.");
+        }
+
+        int max = array[0];
+        for (int i = 1; i < indice_fim; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+        return max;
     }
 
     @Override
     public int predecessor(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'predecessor'");
+        int indice = buscaIndice(valor);
+        if (indice == -1) {
+            throw new IllegalArgumentException("O valor não está na lista.");
+        }
+
+        if (indice == 0) {
+            throw new IllegalArgumentException("Não há predecessor, pois o valor está na primeira posição.");
+        }
+
+        return array[indice - 1];
     }
 
     @Override
     public int sucessor(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'sucessor'");
+        int indice = buscaIndice(valor);
+        if (indice == -1) {
+            throw  new IllegalArgumentException("O valor não está na lista.");
+        }
+
+        if (indice == indice_fim - 1) {
+            throw new IllegalArgumentException("Não há sucessor, pois o valor está na última posição.");
+        }
+
+        return array[indice + 1];
     }
 
     @Override
     public void insereElemento(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insereElemento'");
+        if (indice_fim == tamanho) {
+            throw new IllegalStateException("A lista está cheia.");
+        }
+
+        array[indice_fim] = valor;
+        indice_fim++;
     }
 
     @Override
     public void insereElementoPosicao(int valor, int buscaIndice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insereElementoPosicao'");
+        if (buscaIndice < 0 || buscaIndice > indice_fim) {
+            throw new IllegalArgumentException("Posição de inserção inválida.");
+        }
+
+        if (indice_fim == tamanho) {
+            throw new IllegalStateException("A lista está cheia.");
+        }
+
+        for (int i = indice_fim; i > buscaIndice; i--) {
+            array[i] = array[i - 1];
+        }
+
+        array[buscaIndice] = valor;
+        indice_fim++;
     }
 
     @Override
     public void insereInicio(int valor) {
-        for (int i = indice_fim - 1; i > 0; i--)
-            array[i] = array[i+1];
-        array[0] = valor;
+        insereElementoPosicao(valor, 0);
     }
 
     @Override
     public void insereFim(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insereFim'");
+        insereElemento(valor);
     }
 
     @Override
     public void remove(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        int indice = buscaIndice(valor);
+        if (indice == -1) {
+            return;
+        }
+
+        for (int i = indice; i < indice_fim - 1; i++) {
+            array[i] = array[i + 1];
+        }
+
+        indice_fim--;
     }
 
     @Override
     public void removeIndice(int indice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeIndice'");
+        if (indice < 0 || indice >= indice_fim) {
+            return;
+        }
+        
+
+        for (int i = indice; i < indice_fim - 1; i++) {
+            array[i] = array[i + 1];
+        }
+
+        indice_fim--;
     }
 
     @Override
     public void removeInicio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeInicio'");
+        if (indice_fim == 0) {
+            return;
+        }
+
+        removeIndice(0);
     }
 
     @Override
     public void removeFim() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFim'");
+        if (indice_fim == 0) {
+            return;
+        }
+
+        removeIndice(indice_fim - 1);
     }
-    
 }

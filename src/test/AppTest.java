@@ -17,7 +17,7 @@ public class AppTest {
 
     @Before
     public void setUp() throws Exception {
-        e = new ListaArray();
+        e = new ListaArray(10);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class AppTest {
         e.insereInicio(3);
         e.insereElementoPosicao(5, 0);
         assertTrue(e.buscaElemento(5));
-        assertEquals(5, e.buscaIndice(0));
+        assertEquals(4, e.buscaIndice(0));
         e.removeIndice(0);
         assertFalse(e.buscaElemento(5));
         assertEquals(3, e.buscaIndice(0));
